@@ -3,6 +3,7 @@
 var React = require('react-native');
 var {
   ActivityIndicatorIOS,
+  AsyncStorage,
   TextInput,
   StyleSheet,
   View,
@@ -24,35 +25,25 @@ class Login extends React.Component{
 
     _onPress() {
         this.setState({loading: true});
-        fetch('http://www.instashare.scottdikowitz.com/api/session', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
+        var authService = require('./../AuthService');
+        authService.login({
             username: this.state.username,
-            password: this.state.password,
-          })
-        }).then((response) =>{
-            if(response.status >= 200 && response.status < 300){
-                return response;
+            password: this.state.password
+        }, (cookie)=>{
+            if (!(typeof cookie.badCredentials === "undefined")){
+                this.setState(cookie);
+                this.setState({loading: false});
             }
-
-            throw {
-                badCredentials: response.status == 401,
-                unknownError: response.status != 401
+            else {
+                AsyncStorage.multiSet([
+                    cookie
+                ], (error)=>{
+                    if (error){
+                        throw error;
+                    }
+                });
+                this.props.onLogin();
             }
-        }).then((response) =>{
-            return response.json();
-        }).then((results)=>{
-            this.props.onLogin();
-        }).catch((error)=>{
-            console.log('logon failed: ' + error);
-            this.setState({loading: false});
-            this.setState(error);
-        }).finally(()=>{
-
         });
     }
 
