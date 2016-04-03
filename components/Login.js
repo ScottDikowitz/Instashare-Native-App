@@ -24,7 +24,7 @@ class Login extends React.Component{
 
     _onPress() {
         this.setState({loading: true});
-        fetch('http://localhost:3000/api/session', {
+        fetch('http://www.instashare.scottdikowitz.com/api/session', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

@@ -4,6 +4,7 @@
  */
 
 import React, {
+  AsyncStorage,
   AppRegistry,
   Component,
   StyleSheet,
@@ -32,7 +33,6 @@ class Instashare extends Component {
     return (
       <View style={styles.container}>
         {component}
-        <View style={styles.container}/>
       </View>
     );
   }

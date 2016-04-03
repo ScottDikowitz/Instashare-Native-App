@@ -7,6 +7,8 @@ var {
   StyleSheet,
   View,
   Text,
+  Image,
+  ScrollView,
   TouchableHighlight,
 } = React;
 
@@ -15,25 +17,16 @@ class Feed extends React.Component{
         super(props);
 
         this.state = {
-
+            posts: []
         };
     }
 
-    _onPress() {
-        fetch('http://localhost:3000/api/session', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: 'Guest',
-            password: '123456',
-          })
-      }).then((response) =>{
+    componentDidMount() {
+        fetch('http://www.instashare.scottdikowitz.com/api/posts').then((response) =>{
             return response.json();
         }).then((results)=>{
-          debugger;
+          this.setState({posts: results});
+          console.log(JSON.stringify(results));
       });
 
     }
@@ -41,7 +34,16 @@ class Feed extends React.Component{
     render(){
         return (
             <View style={styles.container}>
-                <Text>Feed</Text>
+                    <ScrollView style={styles.scroll}>
+                    {this.state.posts.map((post, i)=>{
+                        return <View key={`post-${i}`} style={styles.post}>
+                            <Text>{post.user.username}</Text>
+                            <Image
+                                style={styles.image}
+                                source={{uri: post.image}}/>
+                      </View>;
+                    })}
+                    </ScrollView>
             </View>
         );
     }
@@ -50,10 +52,11 @@ class Feed extends React.Component{
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'stretch',
-        padding: 10,
+        marginTop: 50
+    },
+
+    scroll: {
+        flex: 1,
     },
 
     font: {
@@ -61,23 +64,15 @@ var styles = StyleSheet.create({
         fontSize: 25
     },
 
-    button: {
-        height: 50,
-        marginTop: 10,
-        backgroundColor: '#48bbec',
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        justifyContent: 'center',
+    image: {
+        flex: 1,
     },
 
-    textField: {
-        height: 50,
-        marginTop: 10,
-        padding: 4,
-        fontSize: 25,
-        borderWidth: 1,
-        borderColor: '#48bbec'
-    },
+    post: {
+        flex: 1,
+        width: 375,
+        height: 200
+    }
 
 
 });
