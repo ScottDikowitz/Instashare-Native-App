@@ -84,10 +84,10 @@ class Login extends React.Component{
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+
         alignSelf: 'stretch',
         padding: 10,
+        paddingTop: 100
     },
 
     font: {

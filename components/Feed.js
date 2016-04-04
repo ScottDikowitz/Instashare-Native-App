@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Comments = require('./../UI/Comments')
 var {
   ActivityIndicatorIOS,
   TextInput,
@@ -37,10 +38,12 @@ class Feed extends React.Component{
                     <ScrollView style={styles.scroll}>
                     {this.state.posts.map((post, i)=>{
                         return <View key={`post-${i}`} style={styles.post}>
-                            <Text>{post.user.username}</Text>
+                            <Text style={styles.name}>{post.user.username}</Text>
                             <Image
                                 style={styles.image}
+                                resizeMode={Image.resizeMode.contain}
                                 source={{uri: post.image}}/>
+                            <Comments comments={post.comments}/>
                       </View>;
                     })}
                     </ScrollView>
@@ -65,13 +68,21 @@ var styles = StyleSheet.create({
     },
 
     image: {
-        flex: 1,
+        flex: 5,
+        width: 375,
+        height: 350
+    },
+
+    name: {
+        flex:1
     },
 
     post: {
         flex: 1,
-        width: 375,
-        height: 200
+        borderWidth: 0.5,
+        borderColor: '#ccc',
+        marginBottom: 20
+
     }
 
 
