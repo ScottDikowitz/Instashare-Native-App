@@ -10,6 +10,7 @@ import React, {
   Component,
   StyleSheet,
   Text,
+  TabBarIOS,
   View
 } from 'react-native';
 

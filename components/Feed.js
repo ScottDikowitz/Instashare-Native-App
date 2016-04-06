@@ -4,6 +4,7 @@ var React = require('react-native');
 var Comments = require('./../UI/Comments')
 var {
   ActivityIndicatorIOS,
+  Dimensions,
   TextInput,
   StyleSheet,
   View,
@@ -18,18 +19,28 @@ class Feed extends React.Component{
         super(props);
 
         this.state = {
-            posts: []
+            posts: [],
+            stickyHeaderIndices: []
         };
     }
 
     componentDidMount() {
+
+
         fetch('http://www.instashare.scottdikowitz.com/api/posts').then((response) =>{
             return response.json();
         }).then((results)=>{
-          this.setState({posts: results});
-          console.log(JSON.stringify(results));
+          this.setState({posts: results, stickyHeaderIndices:[0]});
       });
 
+    }
+
+    onLoadEnd(e) {
+        debugger;
+    }
+
+    getHeight(dimensions) {
+        return dimensions.height/(dimensions.width / Dimensions.get('window').width);
     }
 
     render(){
@@ -39,11 +50,12 @@ class Feed extends React.Component{
                     {this.state.posts.map((post, i)=>{
                         return <View key={`post-${i}`} style={styles.post}>
                             <Text style={styles.name}>{post.user.username}</Text>
-                            <Image
-                                style={styles.image}
-                                resizeMode={Image.resizeMode.contain}
-                                source={{uri: post.image}}/>
-                            <Comments comments={post.comments}/>
+                                <Image
+                                    style={{flex: 3, width: Dimensions.get('window').width, height: this.getHeight(post.dimensions)}}
+                                    source={{uri: post.image}}
+                                    onLoadEnd={this.onLoadEnd}/>
+                                <Text style={{paddingTop: 2}}>{`${post.user.username}: ${post.caption}`}</Text>
+                                <Comments comments={post.comments}/>
                       </View>;
                     })}
                     </ScrollView>
@@ -55,22 +67,19 @@ class Feed extends React.Component{
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 50
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column'
     },
 
     scroll: {
         flex: 1,
+        width: Dimensions.get('window').width,
     },
 
     font: {
         color: '#fff',
         fontSize: 25
-    },
-
-    image: {
-        flex: 5,
-        width: 375,
-        height: 350
     },
 
     name: {
@@ -81,7 +90,9 @@ var styles = StyleSheet.create({
         flex: 1,
         borderWidth: 0.5,
         borderColor: '#ccc',
-        marginBottom: 20
+        // marginBottom: 20,
+        alignSelf: 'stretch',
+        justifyContent: 'center'
 
     }
 

@@ -21,7 +21,7 @@ class Comments extends React.Component{
         return (
             <View style={styles.container}>
                     {this.props.comments.map((comment, i)=>{
-                        return <Text key={`comment-${i}`} style={styles.name}>{`${comment.username}: ${comment.content}`}</Text>;
+                        return <Text key={`comment-${i}`} style={styles.comment}>{`${comment.username}: ${comment.content}`}</Text>;
                     })}
             </View>
         );
@@ -31,7 +31,6 @@ class Comments extends React.Component{
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 50
     },
 
     scroll: {
@@ -55,6 +54,8 @@ var styles = StyleSheet.create({
 
     comment: {
         flex: 1,
+        marginTop: 2,
+        marginBottom: 2
 
     }
 
