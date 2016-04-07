@@ -4,6 +4,7 @@ var React = require('react-native');
 var Comments = require('./../UI/Comments');
 import FeedStore from 'Instashare/stores/feed';
 import { fetchPosts } from './../api_util/apiUtil';
+import Post from './Post';
 var {
   ActivityIndicatorIOS,
   Dimensions,
@@ -13,6 +14,7 @@ var {
   Text,
   Image,
   ScrollView,
+  ListView,
   TouchableHighlight,
 } = React;
 
@@ -48,15 +50,12 @@ class Feed extends React.Component{
             <View style={styles.container}>
                     <ScrollView style={styles.scroll}>
                     {this.state.posts.map((post, i)=>{
-                        return <View key={`post-${i}`} style={styles.post}>
-                            <Text style={styles.name}>{post.user.username}</Text>
-                                <Image
-                                    style={{flex: 3, width: Dimensions.get('window').width, height: this.getHeight(post.dimensions)}}
-                                    source={{uri: post.image}}
-                                    onLoadEnd={this.onLoadEnd}/>
-                                <Text style={{paddingTop: 2}}>{`${post.user.username}: ${post.caption}`}</Text>
-                                <Comments comments={post.comments}/>
-                      </View>;
+                        return <Post key={`post-${i}`}
+                            comments={post.comments}
+                            dimensions={{width:Dimensions.get('window').width, height: this.getHeight(post.dimensions)}}
+                            username={post.user.username}
+                            image={post.image}
+                            caption={post.caption}/>;
                     })}
                     </ScrollView>
             </View>
@@ -87,13 +86,6 @@ var styles = StyleSheet.create({
     },
 
     post: {
-        flex: 1,
-        borderWidth: 0.5,
-        borderColor: '#ccc',
-        // marginBottom: 20,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
-
     }
 
 
