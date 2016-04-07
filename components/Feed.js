@@ -3,7 +3,7 @@
 var React = require('react-native');
 var Comments = require('./../UI/Comments');
 import FeedStore from 'Instashare/stores/feed';
-import { fetchPosts } from './../api_util/apiUtil';
+import { fetchPosts, createComment } from './../api_util/apiUtil';
 import Post from './Post';
 var {
   ActivityIndicatorIOS,
@@ -45,6 +45,12 @@ class Feed extends React.Component{
         this.setState({posts: FeedStore.getPosts()});
     }
 
+    postComment(comment) {
+
+        createComment(comment);
+
+    }
+
     render(){
         return (
             <View style={styles.container}>
@@ -55,7 +61,9 @@ class Feed extends React.Component{
                             dimensions={{width:Dimensions.get('window').width, height: this.getHeight(post.dimensions)}}
                             username={post.user.username}
                             image={post.image}
-                            caption={post.caption}/>;
+                            postId={post.id}
+                            caption={post.caption}
+                            onPostComment={this.postComment.bind(this)}/>;
                     })}
                     </ScrollView>
             </View>

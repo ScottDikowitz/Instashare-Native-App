@@ -72,7 +72,7 @@ class Login extends React.Component{
         return (
             <View style={styles.container}>
                 <ActivityIndicatorIOS animating={this.state.loading}/>
-                <TextInput onChange={this.onChangeUname.bind(this)} style={styles.textField} placeholder="helloworld"></TextInput>
+                <TextInput onChange={this.onChangeUname.bind(this)} style={styles.textField}></TextInput>
                 <TextInput onChange={this.onChangePassword.bind(this)} style={styles.textField} secureTextEntry={true}></TextInput>
                 <TouchableHighlight onPress={this._onPress.bind(this)} style={styles.button}><Text style={styles.font}>Log in</Text></TouchableHighlight>
                 {errorCtrl}

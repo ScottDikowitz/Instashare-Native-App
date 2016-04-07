@@ -6,3 +6,10 @@ export function receivePosts(posts) {
         posts: posts
     });
 }
+
+export function insertComments(comments) {
+    AppDispatcher.dispatch({
+        actionType: 'COMMENTS_RECEIVED',
+        comments: comments
+    });
+}

@@ -18,8 +18,22 @@ var {
 class Post extends React.Component{
     constructor(props){
         super(props);
+
+        this.state = {
+            comment: ""
+        };
     }
-    
+
+    onChangeComment(e) {
+        this.setState({comment: e.nativeEvent.text});
+    }
+
+    createComment() {
+        var comment = {content: this.state.comment, post_id: this.props.postId }
+
+        this.props.onPostComment(comment);
+    }
+
     render(){
         return (
             <View style={styles.post}>
@@ -30,6 +44,10 @@ class Post extends React.Component{
                         />
                     <Text style={{paddingTop: 2}}>{`${this.props.username}: ${this.props.caption}`}</Text>
                     <Comments comments={this.props.comments}/>
+                    <View style={styles.createComment}>
+                        <TextInput onChange={this.onChangeComment.bind(this)} style={styles.textField} placeholder="add a comment..."></TextInput>
+                        <TouchableHighlight onPress={this.createComment.bind(this)} style={styles.button}><Text style={styles.font}>Comment!</Text></TouchableHighlight>
+                    </View>
           </View>
         );
     }
@@ -37,9 +55,15 @@ class Post extends React.Component{
 
 var styles = StyleSheet.create({
 
+    createComment: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 25,
+    },
+
     font: {
         color: '#fff',
-        fontSize: 25
+        fontSize: 16,
     },
 
     name: {
@@ -50,10 +74,19 @@ var styles = StyleSheet.create({
         flex: 1,
         borderWidth: 0.5,
         borderColor: '#ccc',
-        // marginBottom: 20,
         alignSelf: 'stretch',
         justifyContent: 'center'
+    },
 
+    button: {
+        flex: 1,
+        backgroundColor: '#48bbec',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    textField: {
+        flex: 3
     }
 
 
