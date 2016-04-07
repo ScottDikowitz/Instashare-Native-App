@@ -1,7 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-var Comments = require('./../UI/Comments')
+var Comments = require('./../UI/Comments');
+import FeedStore from 'Instashare/stores/feed';
+import { fetchPosts } from './../api_util/apiUtil';
 var {
   ActivityIndicatorIOS,
   Dimensions,
@@ -17,30 +19,28 @@ var {
 class Feed extends React.Component{
     constructor(props){
         super(props);
+        this._changed = this._changed.bind(this);
 
         this.state = {
-            posts: [],
-            stickyHeaderIndices: []
+            posts: []
         };
     }
 
     componentDidMount() {
-
-
-        fetch('http://www.instashare.scottdikowitz.com/api/posts').then((response) =>{
-            return response.json();
-        }).then((results)=>{
-          this.setState({posts: results, stickyHeaderIndices:[0]});
-      });
+        FeedStore.addListener(this._changed);
+        fetchPosts();
 
     }
 
-    onLoadEnd(e) {
-        debugger;
+    componentWillUnmount() {
+        FeedStore.removeListener(this._changed);
     }
-
     getHeight(dimensions) {
         return dimensions.height/(dimensions.width / Dimensions.get('window').width);
+    }
+
+    _changed() {
+        this.setState({posts: FeedStore.getPosts()});
     }
 
     render(){
