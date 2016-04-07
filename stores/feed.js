@@ -6,16 +6,7 @@ var CHANGE_EVENT = 'CHANGE';
 
 FeedStore.getPosts = function() {
     return _posts.slice();
-}
-
-// FeedStore.addChangeListener = function(callback){
-//     debugger;
-//   this.on(CHANGE_EVENT, callback);
-// };
-//
-// FeedStore.removeChangeListener = function(callback){
-//   this.removeListener(CHANGE_EVENT, callback);
-// };
+};
 
 FeedStore.resetPosts = function(posts) {
     _posts = posts;
