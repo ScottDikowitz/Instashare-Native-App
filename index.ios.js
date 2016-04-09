@@ -10,12 +10,11 @@ import React, {
   Component,
   StyleSheet,
   Text,
-  TabBarIOS,
   View
 } from 'react-native';
 
-import Feed from './components/Feed';
 import Login from './components/Login';
+import AppContainer from './components/AppContainer';
 var AuthService = require('./AuthService');
 class Instashare extends Component {
 
@@ -49,12 +48,16 @@ class Instashare extends Component {
                 <View style={styles.loading}><ActivityIndicatorIOS animating={this.state.loading}/></View>
             );
         }
-        var component = this.state.loggedIn ? <Feed/> : <Login onLogin={this.onLogin.bind(this)}/>;
-        return (
-            <View style={styles.container}>
-                {component}
-            </View>
-        );
+        if (this.state.loggedIn){
+            return (
+                <AppContainer/>
+            );
+        }
+        else{
+            return (
+                <Login onLogin={this.onLogin.bind(this)}/>
+            );
+        }
     }
 }
 
