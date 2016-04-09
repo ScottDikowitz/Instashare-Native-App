@@ -1,4 +1,4 @@
-import { receivePosts, insertComments } from '../api_actions/apiActions';
+import { receivePosts, receiveUserPage, insertComments } from '../api_actions/apiActions';
 export function fetchPosts() {
     fetch('http://www.instashare.scottdikowitz.com/api/posts').then((response) =>{
         return response.json();
@@ -30,4 +30,13 @@ export function createComment(comment) {
         }).then((results)=>{
             insertComments(results);
         });
+    }
+
+
+    export function fetchUser(username) {
+        fetch(`http://www.instashare.scottdikowitz.com/api/users/${username}`).then((response) =>{
+            return response.json();
+        }).then((results)=>{
+        receiveUserPage(results);
+      });
     }

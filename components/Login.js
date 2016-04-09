@@ -29,14 +29,14 @@ class Login extends React.Component{
         authService.login({
             username: this.state.username,
             password: this.state.password
-        }, (cookie)=>{
+        }, (cookie, user)=>{
             if (!(typeof cookie.badCredentials === "undefined")){
                 this.setState(cookie);
                 this.setState({loading: false});
             }
             else {
                 AsyncStorage.multiSet([
-                    cookie
+                    cookie, ['user', JSON.stringify(user)]
                 ], (error)=>{
                     if (error){
                         throw error;

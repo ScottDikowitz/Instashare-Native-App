@@ -36,7 +36,7 @@ class AuthService {
             this._cookie = ['session', response.headers.map['set-cookie'][0].split('; path=/;')[0]];
             return response.json();
         }).then((results)=>{
-            return cb(that._cookie);
+            return cb(that._cookie, {id: results.id, username: results.username});
         }).catch((error)=>{
             return cb(error);
         }).finally(()=>{

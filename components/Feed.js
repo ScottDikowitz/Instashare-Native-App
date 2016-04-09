@@ -31,7 +31,6 @@ class Feed extends React.Component{
     componentDidMount() {
         FeedStore.addListener(this._changed);
         fetchPosts();
-
     }
 
     componentWillUnmount() {

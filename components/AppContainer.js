@@ -2,6 +2,8 @@
 
 var React = require('react-native');
 import Feed from 'Instashare/components/Feed';
+import CurrentUserStore from 'Instashare/stores/currentUser';
+import Profile from 'Instashare/components/profile';
 var {
   ActivityIndicatorIOS,
   TextInput,
@@ -16,8 +18,22 @@ class AppContainer extends React.Component{
         super(props);
 
         this.state = {
-            selectedTab: 'feed'
+            selectedTab: 'feed',
+            user: {username: "", id: 0}
         };
+    }
+
+    componentDidMount() {
+        CurrentUserStore.addListener(this._changed.bind(this));
+        CurrentUserStore.checkUser();
+    }
+
+    componentWillUnmount() {
+        CurrentUserStore.removeListener(this._changed.bind(this));
+    }
+
+    _changed() {
+        this.setState({user: CurrentUserStore.getCurrentUser()});
     }
 
 
@@ -38,7 +54,7 @@ class AppContainer extends React.Component{
                 selected={this.state.selectedTab === 'profile'}
                 onPress={()=> {this.setState({selectedTab: 'profile'})}}
                 source={require('image!activity_grid_2_filled-25')}
-                ><Text>hello</Text>
+                ><Profile user={this.state.user}/>
                 </TabBarIOS.Item>
             </TabBarIOS>
         );

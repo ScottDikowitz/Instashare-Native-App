@@ -13,3 +13,17 @@ export function insertComments(comments) {
         comments: comments
     });
 }
+
+export function userReceived(user) {
+    AppDispatcher.dispatch({
+        actionType: 'USER_RECEIVED',
+        comments: user
+    });
+}
+
+export function receiveUserPage(userPage) {
+    AppDispatcher.dispatch({
+        actionType: 'USER_PAGE_RECEIVED',
+        userPage: userPage
+    });
+}

@@ -5,7 +5,7 @@ var _posts = [];
 var CHANGE_EVENT = 'CHANGE';
 
 FeedStore.getPosts = function() {
-    return _posts.slice();
+    return _posts;
 };
 
 FeedStore.resetPosts = function(posts) {
