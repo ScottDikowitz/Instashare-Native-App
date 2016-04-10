@@ -44,7 +44,7 @@ class AppContainer extends React.Component{
                 title="feed"
                 selected={this.state.selectedTab === 'feed'}
                 onPress={()=> {this.setState({selectedTab: 'feed'})}}
-                source={require('image!activity_grid_2_filled-25')}
+                icon={require('image!Activity')}
                 >
                     <Feed/>
 
@@ -53,7 +53,7 @@ class AppContainer extends React.Component{
                 title="profile"
                 selected={this.state.selectedTab === 'profile'}
                 onPress={()=> {this.setState({selectedTab: 'profile'})}}
-                source={require('image!activity_grid_2_filled-25')}
+                icon={require('image!Profile')}
                 ><Profile user={this.state.user}/>
                 </TabBarIOS.Item>
             </TabBarIOS>
